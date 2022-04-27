@@ -1,0 +1,115 @@
+/* 
+Buttons styles
+- default button
+- size button
+- border 
+- text inside
+*/
+
+.btn {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 32px;
+    cursor: pointer;
+    box-shadow: 0 3px #999;
+}
+
+.btn-add {
+    border: 2px solid #DE8667;
+    border-radius: 50px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    height: 45px;
+    width: 45px;
+    color: #DE8667;
+    background-color: white;
+    font-size: 25px;
+    box-shadow: 0 3px #999;
+}
+
+.small {
+    width: 137px;
+    height: 40px;
+    left: 168px;
+    top: 0px;
+}
+
+.medium {
+    width: 184px;
+    height: 40px;
+    left: 628px;
+    top: 1774px;
+}
+
+.long {
+    width: 420px;
+    height: 40px;
+    left: 0px;
+    top: 470.5px;
+}
+
+/* Button border color: */
+.bord-orange {
+    border: 2px solid #DE8667;
+}
+
+.bord-white {
+    border: solid white;
+}
+
+.bord-none {
+    border: 0;
+}
+
+
+/* Styles forwhen the button is clicked */
+button:active {
+    box-shadow: 0 1px #666;
+    transform: translateY(1px);
+}
+
+button:hover {
+    opacity: 6
+}
+
+
+/* Background color */
+
+.bckgrd-orange {
+    background-color: #e59967;
+}
+
+/* Text colors: */
+.text-orange {
+    color: #e59967;
+}
+
+.text-white {
+    color: white
+}
+
+/* Input fields: */
+
+.input-long {
+    background: #FFFFFF;
+    /* Orange */
+    border: 2px solid #DE8667;
+    border-radius: 32px;
+    width: 420px;
+    height: 40px;
+    left: 0px;
+    top: 0px;
+    padding: 8px 30px 8px 24px;
+}
+
+.input-short {
+    background: #FFFFFF;
+    /* Orange */
+    border: 2px solid #DE8667;
+    border-radius: 32px;
+    width: 190px;
+    height: 40px;
+    left: 0px;
+    top: 0px;
+    padding: 8px 30px 8px 24px;
+}

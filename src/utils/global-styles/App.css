@@ -1,0 +1,52 @@
+/* Global style */
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
+* {
+    /* This style is very important: DO NOT DELETE */
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.app {
+    /* This is the top of the page anything under this div is the footer */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* Needs to be dynamic not static 
+    background: no-repeat center center cover;
+    background-image: url("/src/components/profile/assets/bckgrd-rectangle-curve.png");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    */
+}
+
+body {
+    /* Default font: */
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    /* Default font style: */
+    color: black;
+    line-height: 1.6;
+
+    /* -- Hide horizontal scrollbars --
+    Since we don't really need this we are 
+    Going to just completely remove it */
+    overflow-x: hidden;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+a {
+    all: unset;
+}
+
+.main {
+    padding: 5em 0px;
+}
