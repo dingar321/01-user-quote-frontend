@@ -6,19 +6,25 @@ import './utils/global-styles/App-mobile.css'
 
 /* Importing all of the various components */
 import Footer from './components/footer/Footer';
-
+import Navbar from './components/navbar/Navbar';
+import { BrowserRouter as Router, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="app" >
-      <div>
+    <Router>
+      <div className="app" >
+        <div>
+          <Navbar />
+          <div className='main'>
+            <Routes>
 
-        <div className='main'>
 
+            </Routes>
+          </div>
         </div>
-      </div>
-      <Footer />
-    </div >
+        <Footer />
+      </div >
+    </Router>
   );
 }
 
