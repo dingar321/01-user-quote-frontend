@@ -1,5 +1,5 @@
 
-/* Global styles import */
+/* importing global styles */
 import './utils/global-styles/App.css';
 import './utils/global-styles/App-utils.css'
 import './utils/global-styles/App-mobile.css'
@@ -7,7 +7,12 @@ import './utils/global-styles/App-mobile.css'
 /* Importing all of the various components */
 import Footer from './components/footer/Footer';
 import Navbar from './components/navbar/Navbar';
-import { BrowserRouter as Router, Routes } from 'react-router-dom';
+import LandingPage from './components/landing-page/LandingPage';
+
+
+/* Importing libraries */
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   return (
@@ -18,6 +23,8 @@ function App() {
           <div className='main'>
             <Routes>
 
+              {/* Public routes */}
+              <Route path="/" element={<LandingPage />} />
 
             </Routes>
           </div>
