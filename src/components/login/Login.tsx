@@ -1,8 +1,7 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { LoginStyle } from "./Login.style";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import React from "react";
 
 const Login = () => {
     //Effects handling

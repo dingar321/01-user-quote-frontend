@@ -24,12 +24,27 @@ const Navbar = () => {
         }
     }, [])
 
+
+    //Navigate funtions
+    function navigateProfile() {
+        navigate("/profile");
+    }
+
     function navigateLogin() {
         navigate("/login");
     }
 
+    function navigateRegister() {
+        navigate("/signup");
+    }
+
     function navigateDashbaord() {
         navigate("/");
+    }
+
+    function handleLogout() {
+        //removeTokenAndUser();
+        navigate("/login");
     }
 
     return (
@@ -38,25 +53,28 @@ const Navbar = () => {
                 <div className="navbar">
                     <div className="navbar-container">
                         <h1>
-                            <img className="navbar-logo" onClick={navigateDashbaord} src={QuotasticLogo} />
+                            <img className="navbar-logo"
+                                onClick={navigateDashbaord} src={QuotasticLogo} />
                         </h1>
                         <nav>
                             <ul className="rigth-side">
 
                                 {(!(user) && location.pathname !== '/signup') &&
-                                    <button className="btn small bckgrd-orange bord-none text-white">Sign up</button>
+                                    <button onClick={navigateRegister}
+                                        className="btn small bckgrd-orange bord-none text-white">Sign up</button>
                                 }
 
                                 {(!(user) && location.pathname !== '/login') &&
-                                    <button onClick={navigateLogin} className="btn small bord-orange text-orange">Login</button>
+                                    <button onClick={navigateLogin}
+                                        className="btn small bord-orange text-orange">Login</button>
                                 }
 
                                 {((user)) && <>
-                                    <button className="btn-log" >Home</button>
+                                    <button className="btn-log" onClick={navigateDashbaord}>Home</button>
                                     <button className="btn-log" >Setting</button>
-                                    <button className="btn-log" >Profile</button>
-                                    <button className="btn-log" >Logout</button>
-                                    <button className="btn-add" >+</button>
+                                    <button className="btn-log" onClick={navigateProfile}>Profile</button>
+                                    <button className="btn-log" onClick={handleLogout}>Logout</button>
+                                    <button className="btn-add">+</button>
 
 
                                     <div className="user-greeting">
