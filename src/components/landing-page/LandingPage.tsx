@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { UserState } from '../../utils/common/global-state';
 
 //Import stlye
 import { LandingPageStyle } from './LandingPage.style'
+
+//Import components
 import QuoteCard from '../quote-card/QuoteCard';
-import Title from '../title/Title';
 import MasonryGrid from '../masonry-grid/MasonryGrid';
+import Title from '../title/Title';
 
 
 const LandingPage = () => {
@@ -14,14 +18,14 @@ const LandingPage = () => {
     //Saving the quotes we get from the api
     const [mostUpvotedQuotes, setMostUpvotedQuotes] = useState([]);
     const [recentlyAddedQuotes, setRecentlyAddedQuotes] = useState([]);
-    const user: string = 'not here'
 
+    //Getting the global user
+    const [loggedUser] = useRecoilState(UserState);
+    //const user = getUser();
 
-    //Saving the user
+    //Data loading 
     const [loading, setLoading] = useState(false);
 
-
-    //const user = getUser();
 
     useEffect(() => {
         const fectchRecentlyAddedQuotes = async () => {
@@ -50,7 +54,7 @@ const LandingPage = () => {
         navigate("/signup");
     }
 
-    if (user === 'here') {
+    if (loggedUser) {
         {/* If the user is NOT logged in we display this */ }
         return (
             <LandingPageStyle>

@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NavbarStyle } from './Navbar.style'
+import User from '../../utils/types/User';
+import { getUser, removeTokenAndUser } from '../../utils/common/Session';
 
 //Image import
 import QuotasticLogo from '../../assets/images/navbar/navbar-logo.svg';
+import { useRecoilState } from 'recoil';
+import { UserState } from '../../utils/common/global-state';
 
 const Navbar = () => {
 
-    const [user, setUser] = useState();
-    const [loading, setLoading] = useState(false);
-
-    /* User information */
-    const [userFirstName, setUserFirstName] = useState('');
-    const [userLastName, setUserLastName] = useState('');
+    const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
-        if (user) {
-            setUserFirstName("Dino");
-            setUserLastName("Garic");
-        }
+        //loads once and adds the user to the recoil state
+        setLoggedUser(getUser());
     }, [])
-
 
     //Navigate funtions
     function navigateProfile() {
@@ -43,7 +39,8 @@ const Navbar = () => {
     }
 
     function handleLogout() {
-        //removeTokenAndUser();
+        removeTokenAndUser();
+        setLoggedUser(getUser());
         navigate("/login");
     }
 
@@ -59,28 +56,26 @@ const Navbar = () => {
                         <nav>
                             <ul className="rigth-side">
 
-                                {(!(user) && location.pathname !== '/signup') &&
-                                    <button onClick={navigateRegister}
-                                        className="btn small bckgrd-orange bord-none text-white">Sign up</button>
+                                {((loggedUser?.userId == 0) && location.pathname !== '/signup') &&
+                                    <button onClick={navigateRegister} className="btn small bckgrd-orange bord-none text-white">Sign up</button>
                                 }
 
-                                {(!(user) && location.pathname !== '/login') &&
-                                    <button onClick={navigateLogin}
-                                        className="btn small bord-orange text-orange">Login</button>
+                                {((loggedUser?.userId == 0) && location.pathname !== '/login') &&
+                                    <button onClick={navigateLogin} className="btn small bord-orange text-orange">Login</button>
                                 }
 
-                                {((user)) && <>
+
+                                {((loggedUser?.userId != 0)) && <>
                                     <button className="btn-log" onClick={navigateDashbaord}>Home</button>
                                     <button className="btn-log" >Setting</button>
                                     <button className="btn-log" onClick={navigateProfile}>Profile</button>
                                     <button className="btn-log" onClick={handleLogout}>Logout</button>
                                     <button className="btn-add">+</button>
 
-
                                     <div className="user-greeting">
                                         <p>
                                             Welcome, <br />
-                                            {userFirstName} {userLastName}
+                                            {loggedUser.firstName} {loggedUser.lastName}
                                         </p>
                                     </div>
 

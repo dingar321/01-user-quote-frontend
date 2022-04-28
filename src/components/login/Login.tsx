@@ -1,12 +1,28 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { LoginStyle } from "./Login.style";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import { getUser, setUserSession } from "../../utils/common/Session";
+import { useRecoilState } from "recoil";
+import { UserState } from "../../utils/common/global-state";
+
+import User from "../../utils/types/User";
+import { fail } from "assert";
 
 const Login = () => {
     //Effects handling
     const emailRef = React.useRef<HTMLInputElement | null>(null)
     const errorRef = React.useRef<HTMLInputElement | null>(null)
+
+    const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
+
+    const [user, setUser] = useState<User>();
+
+    const updateFirstName = (firstName: string): void => setLoggedUser(UserState => ({
+        ...UserState
+    }));
+
 
     //Values that the user must provide
     const [email, setEmail] = useState('');
@@ -14,6 +30,9 @@ const Login = () => {
 
     //Error handling
     const [errorMessage, setErrorMessage] = useState('');
+
+    //For loading
+    const [loading, setLoading] = useState(false);
 
     //After a succesfull login we get moved to the homepage
     const navigate = useNavigate();
@@ -39,39 +58,56 @@ const Login = () => {
     const handleSubmitLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        setLoading(true);
+        //we get the JWT
         await axios.post('http://localhost:3333/auth/login',
             JSON.stringify({ email, password }),
             { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-        ).then(response => {
+        ).then(async response => {
+            setLoading(false);
+            if (!loading) {
+                var token = response.data;
+                //create session
+                //with the token we get the user's info with the '/me' endpoint
+                await axios.get('http://localhost:3333/me',
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                        withCredentials: true,
+                    }
+                ).then(user => {
+                    setLoading(true);
+                    //We set the token and user in the session storage!
+                    sessionStorage.setItem("token", token);
+                    sessionStorage.setItem("user", JSON.stringify(user.data));
+                    setUser(response.data);
+                    setLoading(false);
+                })
+            }
+            if (!loading) {
+                setLoggedUser(getUser());
+                //Clear all fields:
+                setEmail('');
+                setPassword('');
 
-            //setUserSession(response.data, "token")
-            //setUser(getUser());
-
-            //Clear all fields:
-            setEmail('');
-            setPassword('');
-
-            //Redirects the user if he succesfully registerers
-            // --> '/' (home)
-
-            navigateHome();
-
-
+                //Redirects the user if he succesfully registerers
+                // --> '/' (home)
+                navigateHome();
+            }
         }).catch(error => {
             if (error.response?.status === 400) {
-                setErrorMessage('Login failed, email and password are not correct. Try again !');
+                setErrorMessage('Login failed, check your credentials. Try again !');
             }
             else if (error.response?.status === 401) {
-                setErrorMessage('Login failed, email and password are not correct. Try again !');
+                setErrorMessage('Login failed, check your credentials. Try again !');
             }
             else if (error.response?.status === 404) {
-                setErrorMessage('Login failed, email and password are not correct. Try again !');
+                setErrorMessage('Login failed, check your credentials. Try again !');
             }
             else if (error.response?.status === 500) {
-                setErrorMessage('Login failed, email and password are not correct. Try again !');
+                setErrorMessage('Login failed, check your credentials. Try again !');
             }
             else {
-                setErrorMessage('Login failed, email and password are not correct. Try again !');
+                setErrorMessage('Login failed, check your credentials. Try again !');
             }
             errorRef.current?.focus();
         });
