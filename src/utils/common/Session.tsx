@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import User from "../types/User";
-import { UserState } from "./global-state";
+import User from "../models/User";
+import { UserState } from "./States";
 
 //This file handles the getting, setting and deleting the session data
 //Setting the global user

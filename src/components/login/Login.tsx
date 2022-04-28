@@ -5,9 +5,9 @@ import axios from "axios";
 
 import { getUser, setUserSession } from "../../utils/common/Session";
 import { useRecoilState } from "recoil";
-import { UserState } from "../../utils/common/global-state";
+import { UserState } from "../../utils/common/States";
 
-import User from "../../utils/types/User";
+import User from "../../utils/models/User";
 import { fail } from "assert";
 
 const Login = () => {

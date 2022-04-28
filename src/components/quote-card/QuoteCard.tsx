@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
 
 //Import style
 import { QuoteCardStyle } from './QuoteCard.style'
@@ -11,62 +13,69 @@ import UpvoteImageSelected from '../../assets/images/card/card-btn-upvote-select
 import DownvoteImageSelected from '../../assets/images/card/card-btn-downvote-selected.png';
 
 //Import types
-import Quote from '../../utils/types/Quote';
-import User from '../../utils/types/User';
+import Quote from '../../utils/models/Quote';
+import User from '../../utils/models/User';
+import { getToken, getUser } from '../../utils/common/Session';
 
-function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
+
+function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
+    { quotes: Quote[], loading: boolean, upvotesArray: number[], downvotesArray: number[] }) {
+
     //Herer we save the user if he is logged in
-    const [user, setUser] = useState<User>();
+    const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
     //Saving the single quote we get from params
     const [singleQuote, setQuote] = useState(quotes[0])
 
     //here we save the users upvotes and downvotes if he is logged in 
-    const [userUpvotesArray, setuserUpvotesArray] = useState<number[]>([]);
-    const [userDownvotesArray, setUserDownvotesArray] = useState<number[]>([]);
+    const [userUpvotesArray, setuserUpvotesArray] = useRecoilState<number[]>(UserUpvotes);
+    const [userDownvotesArray, setUserDownvotesArray] = useRecoilState<number[]>(UserDownvotes);
 
     useEffect(() => {
-        /*
-        const fectchLoggedUserData = async () => {
-            const response = await axios.get('http://localhost:3333/me',
+        setuserUpvotesArray(upvotesArray);
+        setUserDownvotesArray(downvotesArray);
+        setLoggedUser(getUser());
+
+    }, [])
+
+    const upvoteQuote = async () => {
+        const upvoteSelectedQuote = async () => {
+            const response = await axios.get('http://localhost:3333/' + quotes[0].quoteId + '/upvote',
                 {
-                    headers: { Authorization: `Bearer ${''}` },
+                    headers: { Authorization: `Bearer ${getToken()}` },
                     withCredentials: true,
                 }
             ).then(user => {
                 //Get and set the users upvotes and downvotes
-                setUser(user.data);
-                setUserDownvotesArray(user.data.downvotes);
-                setuserUpvotesArray(user.data.upvotes)
+                setLoggedUser(user.data);
+                setuserUpvotesArray(user.data.upvotes);
+                setUserDownvotesArray(user.data.downvotes)
             })
         }
-        fectchLoggedUserData();
-        */
-    }, [])
-
-    const upvoteQuote = async () => {
-        await axios.get('http://localhost:3333/' + quotes[0].quoteId + '/upvote',
-            {
-                headers: { Authorization: `Bearer ${''}` },
-                withCredentials: true,
-
-            }
-        )
+        upvoteSelectedQuote();
     }
 
     const downvoteQuote = async () => {
-        await axios.get('http://localhost:3333/' + quotes[0].quoteId + '/downvote',
-            {
-                headers: { Authorization: `Bearer ${''}` },
-                withCredentials: true,
-
-            }
-        )
+        const downvoteSelectedQuote = async () => {
+            const response = await axios.get('http://localhost:3333/' + quotes[0].quoteId + '/downvote',
+                {
+                    headers: { Authorization: `Bearer ${getToken()}` },
+                    withCredentials: true,
+                }
+            ).then(user => {
+                //Get and set the users upvotes and downvotes
+                setLoggedUser(user.data);
+                setuserUpvotesArray(user.data.upvotes);
+                setUserDownvotesArray(user.data.downvotes)
+            })
+        }
+        downvoteSelectedQuote();
     }
 
 
 
     if (loading) {
+        {/* If the call to the api is still fetching */ }
         return <p className="loading">Loading...</p>
     } else if (quotes) {
         return (
@@ -112,7 +121,21 @@ function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
                         </div >
                         <div className="card-column">
                             <div className="user">
-                                {quote.userTk.firstName} {quote.userTk.lastName}
+
+                                {/* Check if the quote belongs to the logged in user */}
+                                {(quote.userTk.email == loggedUser.email) &&
+                                    <p className='logged-users-quote'>
+                                        {quote.userTk.firstName} {quote.userTk.lastName}
+                                    </p>
+                                }
+
+                                {(quote.userTk.email != loggedUser.email) &&
+                                    <p>
+                                        {quote.userTk.firstName} {quote.userTk.lastName}
+                                    </p>
+                                }
+
+
                             </div>
                             <div className="content">
                                 {quote.content}
