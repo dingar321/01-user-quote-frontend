@@ -24,13 +24,21 @@ const Navbar = () => {
         }
     }, [])
 
+    function navigateLogin() {
+        navigate("/login");
+    }
+
+    function navigateDashbaord() {
+        navigate("/");
+    }
+
     return (
         <NavbarStyle>
             <nav>
                 <div className="navbar">
                     <div className="navbar-container">
                         <h1>
-                            <img className="navbar-logo" src={QuotasticLogo} />
+                            <img className="navbar-logo" onClick={navigateDashbaord} src={QuotasticLogo} />
                         </h1>
                         <nav>
                             <ul className="rigth-side">
@@ -40,7 +48,7 @@ const Navbar = () => {
                                 }
 
                                 {(!(user) && location.pathname !== '/login') &&
-                                    <button className="btn small bord-orange text-orange">Login</button>
+                                    <button onClick={navigateLogin} className="btn small bord-orange text-orange">Login</button>
                                 }
 
                                 {((user)) && <>
