@@ -62,6 +62,7 @@ export const LandingPageStyle = styled.div`
 .quote-of-the-day {
 
     .quote-card { 
+        padding-top: 35px;
         display: flex;
         justify-content: center;
     }
