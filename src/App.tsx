@@ -13,28 +13,31 @@ import Signup from './components/signup/Signup';
 
 /* Importing libraries */
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 
 function App() {
   return (
-    <Router>
-      <div className="app" >
-        <div>
-          <Navbar />
-          <div className='main'>
-            <Routes>
+    <RecoilRoot>
+      <Router>
+        <div className="app" >
+          <div>
+            <Navbar />
+            <div className='main'>
+              <Routes>
 
-              {/* Public routes */}
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+                {/* Public routes */}
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
-            </Routes>
+              </Routes>
+            </div>
           </div>
-        </div>
-        <Footer />
-      </div >
-    </Router>
+          <Footer />
+        </div >
+      </Router>
+    </RecoilRoot>
   );
 }
 

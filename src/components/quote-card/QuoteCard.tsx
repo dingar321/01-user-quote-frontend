@@ -26,6 +26,7 @@ function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
     const [userDownvotesArray, setUserDownvotesArray] = useState<number[]>([]);
 
     useEffect(() => {
+        /*
         const fectchLoggedUserData = async () => {
             const response = await axios.get('http://localhost:3333/me',
                 {
@@ -40,7 +41,7 @@ function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
             })
         }
         fectchLoggedUserData();
-
+        */
     }, [])
 
     const upvoteQuote = async () => {
@@ -96,7 +97,8 @@ function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
                                 </div>
                             }
 
-                            {(!userUpvotesArray.includes(quotes[0].quoteId) && !userDownvotesArray.includes(quotes[0].quoteId)) &&
+                            {
+                                (!userUpvotesArray.includes(quotes[0].quoteId) && !userDownvotesArray.includes(quotes[0].quoteId)) &&
                                 /* If the user has not voted yet display this */
                                 <div className="buttons">
                                     <img onClick={() => upvoteQuote()} src={UpvoteImage} />
@@ -107,7 +109,7 @@ function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
                                 </div>
                             }
 
-                        </div>
+                        </div >
                         <div className="card-column">
                             <div className="user">
                                 {quote.userTk.firstName} {quote.userTk.lastName}
@@ -124,7 +126,7 @@ function QuoteCard({ quotes, loading }: { quotes: Quote[], loading: any }) {
                                 {' (' + quote.created.substring(11).substring(0, 5) + ')'}
                             </div>
                         </div>
-                    </div>
+                    </div >
                 ))[0]
                 }
             </QuoteCardStyle >
