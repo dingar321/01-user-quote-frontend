@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 //Import stlye
 import { LandingPageStyle } from './LandingPage.style'
+import QuoteCard from '../quote-card/QuoteCard';
+import Title from '../title/Title';
+import MasonryGrid from '../masonry-grid/MasonryGrid';
 
 
 const LandingPage = () => {
@@ -47,7 +50,7 @@ const LandingPage = () => {
         navigate("/signup");
     }
 
-    if (user === 'not here') {
+    if (user === 'here') {
         {/* If the user is NOT logged in we display this */ }
         return (
             <LandingPageStyle>
@@ -71,17 +74,10 @@ const LandingPage = () => {
                             </div>
                             <div className="first-row-card">
                                 {/* Make this static since we arent logged in */}
-                                {/*
                                 <QuoteCard
                                     quotes={randomQuote}
                                     loading={loading}
                                 />
-
-                                <QuoteCard
-                                    quotes={randomQuote2}
-                                    loading={loading}
-                                />
-                                */}
                             </div>
                         </div>
                         <div className="landing-page-middle">
@@ -91,17 +87,16 @@ const LandingPage = () => {
                             </h2>
                         </div>
                         <div className="most-recent-quotes">
-                            {/* Make this static since we arent logged in
+                            {/* Make this static since we arent logged in */}
                             <Title
                                 title={"Most upvoted quotes"}
-                                desc1={"Most upvoted quotes on the platform. Sign up or login to like the quotes"}
-                                desc2={"and keep them saved in your profile"}
+                                description={"Most upvoted quotes on the platform. Sign up or login to like the quotes and keep them saved in your profile"}
                             />
                             <MasonryGrid
                                 quotes={mostUpvotedQuotes}
                                 loading={loading}
                             />
-                            */}
+
                         </div>
                     </div>
                 </div>
@@ -114,13 +109,10 @@ const LandingPage = () => {
             <LandingPageStyle>
                 <div className="container">
                     <div className="landing-page">
-                        {/*   
                         <div className="quote-of-the-day">
-                         
-                             <Title
-                                className="title"
+                            <Title
                                 title={"Quote of the day"}
-                                desc1={"Quote of the day is randomly choosen quote."}
+                                description={"Quote of the day is randomly choosen quote."}
                             />
                             <div className="quote-card">
                                 <QuoteCard
@@ -128,36 +120,23 @@ const LandingPage = () => {
                                     loading={loading}
                                 />
                             </div>
-                            */}
-
-                    </div>
-
-                    <div className="most-upvoted-quote">
-                        <div>
-                            {/*  
+                        </div>
+                        <div className="most-upvoted-quote">
+                            <div>
                                 <Title
-                                    className="title"
                                     title={"Most upvoted quotes"}
-                                    desc1={"Most upvoted quotes on the platform. Try upvoting a quote to"}
-                                    desc2={"keep it saved in your profile."}
+                                    description={"Most upvoted quotes on the platform. Try upvoting a quote to keep it saved in your profile."}
                                 />
                             </div>
-
-                                <MasonryGrid quotes={mostUpvotedQuotes} loading={loading} />
-                                */}
+                            <MasonryGrid quotes={mostUpvotedQuotes} loading={loading} />
                         </div>
                         <div className="most-recent-quotes">
-                            {/*  
-                                <Title
-                                    className="title"
-                                    title={"Most recent quotes"}
-                                    desc1={"Recent quotes, this page updates as soon as a user adds a new quote. Go ahed"}
-                                    desc2={"try adding a new quote and like the ones you find meaningfull"}
-                                />
-                                <MasonryGrid quotes={recentlyAddedQuotes} loading={loading} />
-                                                            */}
+                            <Title
+                                title={"Most recent quotes"}
+                                description={"Recent quotes, this page updates as soon as a user adds a new quote. Go ahed try adding a new quote and like the ones you find meaningfull"}
+                            />
+                            <MasonryGrid quotes={recentlyAddedQuotes} loading={loading} />
                         </div>
-
                     </div>
                 </div>
             </LandingPageStyle >
