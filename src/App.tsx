@@ -8,7 +8,7 @@ import './utils/global-styles/App-mobile.css'
 import Footer from './components/footer/Footer';
 import Navbar from './components/navbar/Navbar';
 import LandingPage from './components/landing-page/LandingPage';
-
+import Login from './components/login/Login';
 
 /* Importing libraries */
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -25,6 +25,7 @@ function App() {
 
               {/* Public routes */}
               <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
 
             </Routes>
           </div>
