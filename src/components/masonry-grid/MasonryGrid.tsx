@@ -17,7 +17,7 @@ const MasonryGrid = ({ quotes, loading, upvotesArray, downvotesArray }:
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
     const [currentPage, setCurrentPage] = useState<number>(0);
-    const [quotesPerPage, setQuotesPerPage] = useState<number>(9);
+    const quotesPerPage = 9;
 
     const pageNumbers: number = Math.ceil(quotes.length / quotesPerPage);
 
@@ -25,9 +25,11 @@ const MasonryGrid = ({ quotes, loading, upvotesArray, downvotesArray }:
     const [userUpvotesArray, setuserUpvotesArray] = useRecoilState<number[]>(UserUpvotes);
     const [userDownvotesArray, setUserDownvotesArray] = useRecoilState<number[]>(UserDownvotes);
 
-    //Spliting all the quotes depending on what page of the quotes the user is 
-    const currentQuotes: Quote[] = quotes.slice(currentPage, currentPage + quotesPerPage);
 
+    //Spliting all the quotes depending on what page of the quotes the user is 
+
+
+    const currentQuotes: Quote[] = quotes.slice(currentPage * quotesPerPage, currentPage * quotesPerPage + 9);
 
     useEffect(() => {
         setuserUpvotesArray(upvotesArray);

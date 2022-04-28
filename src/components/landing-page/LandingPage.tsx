@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
+import { MostRecentQuotes, MostUpvotedQuotes, RandomQuote, Reloaded, UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
 
 //Import stlye
 import { LandingPageStyle } from './LandingPage.style'
@@ -13,6 +13,7 @@ import MasonryGrid from '../masonry-grid/MasonryGrid';
 import Title from '../title/Title';
 import { getToken } from '../../utils/common/Session';
 import User from '../../utils/models/User';
+import Quote from '../../utils/models/Quote';
 
 
 const LandingPage = () => {
@@ -20,34 +21,44 @@ const LandingPage = () => {
     //Herer we save the user if he is logged in
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
+    //Saving the users upvotes and downvotes
     const [loggedUserUpvotes, setLoggedUserUpvotes] = useRecoilState<number[]>(UserUpvotes);
     const [loggedUserDownvotes, setLoggedUserDownvotes] = useRecoilState<number[]>(UserDownvotes);
 
     //Saving the quotes we get from the api
-    const [mostUpvotedQuotes, setMostUpvotedQuotes] = useState([]);
-    const [recentlyAddedQuotes, setRecentlyAddedQuotes] = useState([]);
+    const [mostRecentQuotes, setMostRecentQuotes] = useRecoilState<Quote[]>(MostRecentQuotes);
+    const [mostUpvotedQuotes, setMostUpvotedQuotes] = useRecoilState<Quote[]>(MostUpvotedQuotes);
+    const [singleRandomQuote, setsingleRandomQuote] = useRecoilState<Quote[]>(RandomQuote);
 
-    //Data loading 
+    //Data loading, fetching ...
     const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
+        //First we get the most recent quotes
         const fectchRecentlyAddedQuotes = async () => {
             setLoading(true);
-            const response = await axios.get('http://localhost:3333/recently-added');
-            setRecentlyAddedQuotes(response.data);
+            const response = await axios.get('http://localhost:3333/most-recent');
+            setMostRecentQuotes(response.data);
             setLoading(false);
         }
+        fectchRecentlyAddedQuotes();
 
+        //Then we get the most upvoted quotes
         const fetchMostUpvotedQuotes = async () => {
             setLoading(true);
             const response = await axios.get('http://localhost:3333/most-upvoted');
             setMostUpvotedQuotes(response.data);
 
         }
-        fectchRecentlyAddedQuotes();
         fetchMostUpvotedQuotes();
 
+        //Setting the random quote with random number generation
+        setsingleRandomQuote(mostUpvotedQuotes.slice(
+            Math.floor(Math.random() * mostUpvotedQuotes.length) - 1,
+            Math.floor(Math.random() * mostUpvotedQuotes.length)));
+
+        //Also getting the users upvoted and downvoted quotes
         const fectchLoggedUserData = async () => {
             setLoading(true);
             const response = await axios.get('http://localhost:3333/me',
@@ -66,10 +77,6 @@ const LandingPage = () => {
         fectchLoggedUserData();
 
     }, []);
-
-    //Getting a random quote 
-    let randNumber = Math.floor(Math.random() * mostUpvotedQuotes.length);
-    var randomQuote = mostUpvotedQuotes.slice(randNumber - 1, randNumber);
 
     const navigate = useNavigate();
     function navigateRegister() {
@@ -101,7 +108,7 @@ const LandingPage = () => {
                             <div className="first-row-card">
                                 {/* Make this static since we arent logged in */}
                                 <QuoteCard
-                                    quotes={randomQuote}
+                                    quotes={mostUpvotedQuotes}
                                     loading={loading}
                                     upvotesArray={loggedUserUpvotes}
                                     downvotesArray={loggedUserDownvotes}
@@ -146,7 +153,7 @@ const LandingPage = () => {
                             />
                             <div className="quote-card">
                                 <QuoteCard
-                                    quotes={randomQuote}
+                                    quotes={mostUpvotedQuotes}
                                     loading={loading}
                                     upvotesArray={loggedUserUpvotes}
                                     downvotesArray={loggedUserDownvotes}
@@ -173,7 +180,7 @@ const LandingPage = () => {
                                 description={"Recent quotes, this page updates as soon as a user adds a new quote. Go ahed try adding a new quote and like the ones you find meaningfull"}
                             />
                             <MasonryGrid
-                                quotes={recentlyAddedQuotes}
+                                quotes={mostRecentQuotes}
                                 loading={loading}
                                 upvotesArray={loggedUserUpvotes}
                                 downvotesArray={loggedUserDownvotes}

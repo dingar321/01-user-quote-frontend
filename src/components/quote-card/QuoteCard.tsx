@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
+import { MostRecentQuotes, MostUpvotedQuotes, RandomQuote, UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
 
 //Import style
 import { QuoteCardStyle } from './QuoteCard.style'
@@ -24,18 +24,22 @@ function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
     //Herer we save the user if he is logged in
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
-    //Saving the single quote we get from params
-    const [singleQuote, setQuote] = useState(quotes[0])
-
     //here we save the users upvotes and downvotes if he is logged in 
     const [userUpvotesArray, setuserUpvotesArray] = useRecoilState<number[]>(UserUpvotes);
     const [userDownvotesArray, setUserDownvotesArray] = useRecoilState<number[]>(UserDownvotes);
+
+    //Saving the quotes we get from the api
+    const [mostRecentQuotes, setMostRecentQuotes] = useRecoilState<Quote[]>(MostRecentQuotes);
+    const [mostUpvotedQuotes, setMostUpvotedQuotes] = useRecoilState<Quote[]>(MostUpvotedQuotes);
+    const [singleRandomQuote, setsingleRandomQuote] = useRecoilState<Quote[]>(RandomQuote);
+
+    //Data loading, fetching ...
+    const [reFetching, setReFetching] = useState(false);
 
     useEffect(() => {
         setuserUpvotesArray(upvotesArray);
         setUserDownvotesArray(downvotesArray);
         setLoggedUser(getUser());
-
     }, [])
 
     const upvoteQuote = async () => {
@@ -53,6 +57,7 @@ function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
             })
         }
         upvoteSelectedQuote();
+
     }
 
     const downvoteQuote = async () => {
@@ -71,6 +76,7 @@ function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
         }
         downvoteSelectedQuote();
     }
+
 
 
 

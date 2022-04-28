@@ -43,3 +43,13 @@ export const MostRecentQuotes = atom<Quote[]>({
     key: 'MostRecentQuotes',
     default: [],
 });
+
+export const RandomQuote = atom<Quote[]>({
+    key: 'RandomQuote',
+    default: [],
+});
+
+export const Reloaded = atom<boolean>({
+    key: 'Reloaded',
+    default: false,
+});
