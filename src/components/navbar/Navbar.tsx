@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NavbarStyle } from './Navbar.style'
-import User from '../../utils/types/User';
+import User from '../../utils/models/User';
 import { getUser, removeTokenAndUser } from '../../utils/common/Session';
 
 //Image import
 import QuotasticLogo from '../../assets/images/navbar/navbar-logo.svg';
 import { useRecoilState } from 'recoil';
-import { UserState } from '../../utils/common/global-state';
+import { UserState } from '../../utils/common/States';
 
 const Navbar = () => {
 

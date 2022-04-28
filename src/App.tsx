@@ -1,8 +1,8 @@
 
 /* importing global styles */
-import './utils/global-styles/App.css';
-import './utils/global-styles/App-utils.css'
-import './utils/global-styles/App-mobile.css'
+import './utils/styles/App.css';
+import './utils/styles/App-utils.css'
+import './utils/styles/App-mobile.css'
 
 /* Importing all of the various components */
 import Footer from './components/footer/Footer';
