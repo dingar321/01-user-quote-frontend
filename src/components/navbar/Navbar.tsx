@@ -3,16 +3,24 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { NavbarStyle } from './Navbar.style'
 import User from '../../utils/models/User';
 import { getUser, removeTokenAndUser } from '../../utils/common/Session';
+import { UserState } from '../../utils/common/States';
+import QuoteAddDialog from '../dialog/quote-add/QuoteAddDialog';
+import { useRecoilState } from 'recoil';
 
 //Image import
 import QuotasticLogo from '../../assets/images/navbar/navbar-logo.svg';
-import { useRecoilState } from 'recoil';
-import { UserState } from '../../utils/common/States';
+
 
 const Navbar = () => {
 
+    //Dialog toggling
+    const [openSettingsDialog, setOpenSettingsDialog] = useState<boolean>(false);
+    const [openQuoteAddDialog, setOpenQuoteAddDialog] = useState<boolean>(false);
+
+    //Getting and saving the user to a global state
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
+    //Navigations
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -47,6 +55,12 @@ const Navbar = () => {
     return (
         <NavbarStyle>
             <nav>
+
+                {(openQuoteAddDialog) &&
+                    /* Just a background for when the dialog opens */
+                    <img className="dialog-background"></img>
+                }
+
                 <div className="navbar">
                     <div className="navbar-container">
                         <h1>
@@ -70,7 +84,7 @@ const Navbar = () => {
                                     <button className="btn-log" >Setting</button>
                                     <button className="btn-log" onClick={navigateProfile}>Profile</button>
                                     <button className="btn-log" onClick={handleLogout}>Logout</button>
-                                    <button className="btn-add">+</button>
+                                    <button className="btn-add" onClick={() => setOpenQuoteAddDialog(true)}>+</button>
 
                                     <div className="user-greeting">
                                         <p>
@@ -87,6 +101,14 @@ const Navbar = () => {
                         </nav>
                     </div>
                 </div>
+
+
+
+                {(openQuoteAddDialog) &&
+                    <>
+                        < QuoteAddDialog openPopup={openQuoteAddDialog} setOpenPopup={setOpenQuoteAddDialog} />
+                    </>
+                }
 
             </nav>
         </NavbarStyle>
