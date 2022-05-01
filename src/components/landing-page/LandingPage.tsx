@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { MostRecentQuotes, MostUpvotedQuotes, RandomQuote, Reloaded, UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
 
+
+import { useParams } from 'react-router-dom';
 //Import stlye
 import { LandingPageStyle } from './LandingPage.style'
 
@@ -28,7 +30,9 @@ const LandingPage = () => {
     //Saving the quotes we get from the api
     const [mostRecentQuotes, setMostRecentQuotes] = useRecoilState<Quote[]>(MostRecentQuotes);
     const [mostUpvotedQuotes, setMostUpvotedQuotes] = useRecoilState<Quote[]>(MostUpvotedQuotes);
-    const [singleRandomQuote, setsingleRandomQuote] = useRecoilState<Quote[]>(RandomQuote);
+
+
+    const [singleRandomQuote, setsingleRandomQuote] = useRecoilState<Quote>(RandomQuote);
 
     //Data loading, fetching ...
     const [loading, setLoading] = useState(false);
@@ -36,27 +40,23 @@ const LandingPage = () => {
 
     useEffect(() => {
         //First we get the most recent quotes
-        const fectchRecentlyAddedQuotes = async () => {
+        const fetchMostRecentQuotes = async () => {
             setLoading(true);
             const response = await axios.get('http://localhost:3333/most-recent');
             setMostRecentQuotes(response.data);
             setLoading(false);
         }
-        fectchRecentlyAddedQuotes();
+        fetchMostRecentQuotes();
 
         //Then we get the most upvoted quotes
         const fetchMostUpvotedQuotes = async () => {
             setLoading(true);
             const response = await axios.get('http://localhost:3333/most-upvoted');
             setMostUpvotedQuotes(response.data);
-
+            setsingleRandomQuote(response.data[Math.floor(Math.random() * response.data.length)])
+            setLoading(false);
         }
         fetchMostUpvotedQuotes();
-
-        //Setting the random quote with random number generation
-        setsingleRandomQuote(mostUpvotedQuotes.slice(
-            Math.floor(Math.random() * mostUpvotedQuotes.length) - 1,
-            Math.floor(Math.random() * mostUpvotedQuotes.length)));
 
         //Also getting the users upvoted and downvoted quotes
         const fectchLoggedUserData = async () => {
@@ -106,13 +106,15 @@ const LandingPage = () => {
                                 </button>
                             </div>
                             <div className="first-row-card">
-                                {/* Make this static since we arent logged in */}
+                                {/* Make this static since we arent logged in 
                                 <QuoteCard
                                     quotes={mostUpvotedQuotes}
                                     loading={loading}
                                     upvotesArray={loggedUserUpvotes}
                                     downvotesArray={loggedUserDownvotes}
+                                    id={mostUpvotedQuotes[0].quoteId}
                                 />
+                                */}
                             </div>
                         </div>
                         <div className="landing-page-middle">
@@ -122,7 +124,7 @@ const LandingPage = () => {
                             </h2>
                         </div>
                         <div className="most-recent-quotes">
-                            {/* Make this static since we arent logged in */}
+                            {/* Make this static since we arent logged in
                             <Title
                                 title={"Most upvoted quotes"}
                                 description={"Most upvoted quotes on the platform. Sign up or login to like the quotes and keep them saved in your profile"}
@@ -133,7 +135,7 @@ const LandingPage = () => {
                                 upvotesArray={loggedUserUpvotes}
                                 downvotesArray={loggedUserDownvotes}
                             />
-
+ */}
                         </div>
                     </div>
                 </div>
@@ -147,19 +149,19 @@ const LandingPage = () => {
                 <div className="container">
                     <div className="landing-page">
                         <div className="quote-of-the-day">
+
                             <Title
                                 title={"Quote of the day"}
                                 description={"Quote of the day is randomly choosen quote."}
                             />
                             <div className="quote-card">
                                 <QuoteCard
-                                    quotes={mostUpvotedQuotes}
+                                    quote={singleRandomQuote}
                                     loading={loading}
-                                    upvotesArray={loggedUserUpvotes}
-                                    downvotesArray={loggedUserDownvotes}
                                 />
                             </div>
                         </div>
+
                         <div className="most-upvoted-quote">
                             <div>
                                 <Title
@@ -170,10 +172,9 @@ const LandingPage = () => {
                             <MasonryGrid
                                 quotes={mostUpvotedQuotes}
                                 loading={loading}
-                                upvotesArray={loggedUserUpvotes}
-                                downvotesArray={loggedUserDownvotes}
                             />
                         </div>
+
                         <div className="most-recent-quotes">
                             <Title
                                 title={"Most recent quotes"}
@@ -182,10 +183,9 @@ const LandingPage = () => {
                             <MasonryGrid
                                 quotes={mostRecentQuotes}
                                 loading={loading}
-                                upvotesArray={loggedUserUpvotes}
-                                downvotesArray={loggedUserDownvotes}
                             />
                         </div>
+
                     </div>
                 </div>
             </LandingPageStyle >

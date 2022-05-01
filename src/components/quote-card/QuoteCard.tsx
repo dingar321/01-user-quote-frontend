@@ -15,36 +15,34 @@ import DownvoteImageSelected from '../../assets/images/card/card-btn-downvote-se
 //Import types
 import Quote from '../../utils/models/Quote';
 import User from '../../utils/models/User';
-import { getToken, getUser } from '../../utils/common/Session';
+import { getToken } from '../../utils/common/Session';
 
 
-function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
-    { quotes: Quote[], loading: boolean, upvotesArray: number[], downvotesArray: number[] }) {
+function QuoteCard({ quote, loading }: { quote: Quote, loading: boolean }) {
 
-    //Herer we save the user if he is logged in
+    //Here we save the user if he is logged in
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
 
     //here we save the users upvotes and downvotes if he is logged in 
     const [userUpvotesArray, setuserUpvotesArray] = useRecoilState<number[]>(UserUpvotes);
     const [userDownvotesArray, setUserDownvotesArray] = useRecoilState<number[]>(UserDownvotes);
 
-    //Saving the quotes we get from the api
+    const [recievedQuote, setRecievedQuote] = useState<Quote>();
+
+    const [fetching, setFetching] = useState(false);
+
+    //Saving the quotes (Must change when we upvote or downvote)
     const [mostRecentQuotes, setMostRecentQuotes] = useRecoilState<Quote[]>(MostRecentQuotes);
     const [mostUpvotedQuotes, setMostUpvotedQuotes] = useRecoilState<Quote[]>(MostUpvotedQuotes);
-    const [singleRandomQuote, setsingleRandomQuote] = useRecoilState<Quote[]>(RandomQuote);
-
-    //Data loading, fetching ...
-    const [reFetching, setReFetching] = useState(false);
 
     useEffect(() => {
-        setuserUpvotesArray(upvotesArray);
-        setUserDownvotesArray(downvotesArray);
-        setLoggedUser(getUser());
-    }, [])
+        setRecievedQuote(quote);
+    }, [quote]);
 
-    const upvoteQuote = async () => {
+    //Upvoting
+    const upvoteQuote = () => {
         const upvoteSelectedQuote = async () => {
-            const response = await axios.get('http://localhost:3333/' + quotes[0].quoteId + '/upvote',
+            const response = await axios.get('http://localhost:3333/' + recievedQuote?.quoteId + '/upvote',
                 {
                     headers: { Authorization: `Bearer ${getToken()}` },
                     withCredentials: true,
@@ -54,15 +52,47 @@ function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
                 setLoggedUser(user.data);
                 setuserUpvotesArray(user.data.upvotes);
                 setUserDownvotesArray(user.data.downvotes)
+
+                const updateVotesSelectedQuote = async () => {
+                    const response = await axios.get('http://localhost:3333/' + recievedQuote?.quoteId + '/quote',
+                        {
+                            headers: { Authorization: `Bearer ${getToken()}` },
+                            withCredentials: true,
+                        }
+                    ).then(quote => {
+                        //Get and set the users upvotes and downvotes
+                        setRecievedQuote({
+                            quoteId: quote.data[0].quoteId,
+                            content: quote.data[0].content,
+                            votes: quote.data[0].votes,
+                            created: quote.data[0].created,
+                            userTk: quote.data[0].userTk,
+                        })
+
+                        const fetchMostRecentQuotes = async () => {
+                            const response = await axios.get('http://localhost:3333/most-recent');
+                            setMostRecentQuotes(response.data);
+                        }
+                        fetchMostRecentQuotes();
+
+                        //Then we get the most upvoted quotes
+                        const fetchMostUpvotedQuotes = async () => {
+                            const response = await axios.get('http://localhost:3333/most-upvoted');
+                            setMostUpvotedQuotes(response.data);
+                        }
+                        fetchMostUpvotedQuotes();
+                    })
+                }
+                updateVotesSelectedQuote();
             })
         }
         upvoteSelectedQuote();
-
     }
 
-    const downvoteQuote = async () => {
+    //Downvoting
+    const downvoteQuote = () => {
         const downvoteSelectedQuote = async () => {
-            const response = await axios.get('http://localhost:3333/' + quotes[0].quoteId + '/downvote',
+            const response = await axios.get('http://localhost:3333/' + recievedQuote?.quoteId + '/downvote',
                 {
                     headers: { Authorization: `Bearer ${getToken()}` },
                     withCredentials: true,
@@ -72,7 +102,40 @@ function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
                 setLoggedUser(user.data);
                 setuserUpvotesArray(user.data.upvotes);
                 setUserDownvotesArray(user.data.downvotes)
+
+                const updateVotesSelectedQuote = async () => {
+                    const response = await axios.get('http://localhost:3333/' + recievedQuote?.quoteId + '/quote',
+                        {
+                            headers: { Authorization: `Bearer ${getToken()}` },
+                            withCredentials: true,
+                        }
+                    ).then(quote => {
+                        //Get and set the users upvotes and downvotes
+                        setRecievedQuote({
+                            quoteId: quote.data[0].quoteId,
+                            content: quote.data[0].content,
+                            votes: quote.data[0].votes,
+                            created: quote.data[0].created,
+                            userTk: quote.data[0].userTk,
+                        })
+
+                        const fetchMostRecentQuotes = async () => {
+                            const response = await axios.get('http://localhost:3333/most-recent');
+                            setMostRecentQuotes(response.data);
+                        }
+                        fetchMostRecentQuotes();
+
+                        //Then we get the most upvoted quotes
+                        const fetchMostUpvotedQuotes = async () => {
+                            const response = await axios.get('http://localhost:3333/most-upvoted');
+                            setMostUpvotedQuotes(response.data);
+                        }
+                        fetchMostUpvotedQuotes();
+                    })
+                }
+                updateVotesSelectedQuote();
             })
+
         }
         downvoteSelectedQuote();
     }
@@ -81,83 +144,82 @@ function QuoteCard({ quotes, loading, upvotesArray, downvotesArray }:
 
 
     if (loading) {
-        {/* If the call to the api is still fetching */ }
-        return <p className="loading">Loading...</p>
-    } else if (quotes) {
+        {/* If no quotes exist */ }
+        return <div className="no-quotes">Loading ..</div>
+    }
+    else if (recievedQuote) {
         return (
             <QuoteCardStyle>
-                {quotes.map((quote: Quote, i: number) => (
-                    <div key={quote.quoteId} className="masonry-card">
-                        <div className="card-upvotes">
+                <div key={recievedQuote.quoteId} className="masonry-card">
+                    <div className="card-upvotes">
 
-                            {(userUpvotesArray.includes(quotes[0].quoteId)) &&
-                                /* If the user has upvoted display this */
-                                <div className="buttons">
-                                    <img className="upvote" onClick={() => upvoteQuote()} src={UpvoteImageSelected} />
-                                    <p>
-                                        {quote.votes}
-                                    </p>
-                                    <img onClick={() => downvoteQuote()} src={DownvoteImage} />
-                                </div>
-                            }
-
-                            {(userDownvotesArray.includes(quotes[0].quoteId)) &&
-                                /* If the user has downvoted display this */
-                                <div className="buttons">
-                                    <img onClick={() => upvoteQuote()} src={UpvoteImage} />
-                                    <p>
-                                        {quote.votes}
-                                    </p>
-                                    <img className="downvote" onClick={() => downvoteQuote()} src={DownvoteImageSelected} />
-                                </div>
-                            }
-
-                            {
-                                (!userUpvotesArray.includes(quotes[0].quoteId) && !userDownvotesArray.includes(quotes[0].quoteId)) &&
-                                /* If the user has not voted yet display this */
-                                <div className="buttons">
-                                    <img onClick={() => upvoteQuote()} src={UpvoteImage} />
-                                    <p>
-                                        {quote.votes}
-                                    </p>
-                                    <img onClick={() => downvoteQuote()} src={DownvoteImage} />
-                                </div>
-                            }
-
-                        </div >
-                        <div className="card-column">
-                            <div className="user">
-
-                                {/* Check if the quote belongs to the logged in user */}
-                                {(quote.userTk.email == loggedUser.email) &&
-                                    <p className='logged-users-quote'>
-                                        {quote.userTk.firstName} {quote.userTk.lastName}
-                                    </p>
-                                }
-
-                                {(quote.userTk.email != loggedUser.email) &&
-                                    <p>
-                                        {quote.userTk.firstName} {quote.userTk.lastName}
-                                    </p>
-                                }
-
-
+                        {(userUpvotesArray.includes(recievedQuote.quoteId)) &&
+                            /* If the user has upvoted display this */
+                            <div className="buttons">
+                                <img className="upvote" onClick={() => upvoteQuote()} src={UpvoteImage} />
+                                <p>
+                                    {recievedQuote.votes}
+                                </p>
+                                <img onClick={() => downvoteQuote()} src={DownvoteImage} />
                             </div>
-                            <div className="content">
-                                {quote.content}
+                        }
+
+                        {(userDownvotesArray.includes(recievedQuote.quoteId)) &&
+                            /* If the user has downvoted display this */
+                            <div className="buttons">
+                                <img onClick={() => upvoteQuote()} src={UpvoteImage} />
+                                <p>
+                                    {recievedQuote.votes}
+                                </p>
+                                <img className="downvote" onClick={() => downvoteQuote()} src={DownvoteImage} />
                             </div>
-                            <div className="date">
-                                {quote.created.substring(8).substring(2, 0)}
-                                {'.'}
-                                {quote.created.substring(5).substring(2, 0)}
-                                {'.'}
-                                {quote.created.substring(0, 4)}
-                                {' (' + quote.created.substring(11).substring(0, 5) + ')'}
+                        }
+
+                        {
+                            (!userUpvotesArray.includes(recievedQuote.quoteId) && !userDownvotesArray.includes(recievedQuote.quoteId)) &&
+                            /* If the user has not voted yet display this */
+                            <div className="buttons">
+                                <img onClick={() => upvoteQuote()} src={UpvoteImage} />
+                                <p>
+                                    {recievedQuote.votes}
+                                </p>
+                                <img onClick={() => downvoteQuote()} src={DownvoteImage} />
                             </div>
-                        </div>
+                        }
+
                     </div >
-                ))[0]
-                }
+                    <div className="card-column">
+                        <div className="user">
+
+                            {/* Check if the quote belongs to the logged in user */}
+                            {(recievedQuote.userTk.email == loggedUser.email) &&
+                                <p className='logged-users-quote'>
+                                    {recievedQuote.userTk.firstName} {recievedQuote.userTk.lastName}
+                                </p>
+                            }
+
+                            {(recievedQuote.userTk.email != loggedUser.email) &&
+                                <p>
+                                    {recievedQuote.userTk.firstName} {recievedQuote.userTk.lastName}
+                                </p>
+                            }
+
+
+                        </div>
+                        <div className="content">
+                            {recievedQuote.content}
+                        </div>
+                        <div className="date">
+                            {recievedQuote.created.substring(8).substring(2, 0)}
+                            {'.'}
+                            {recievedQuote.created.substring(5).substring(2, 0)}
+                            {'.'}
+                            {recievedQuote.created.substring(0, 4)}
+                            {' (' + recievedQuote.created.substring(11).substring(0, 5) + ')'}
+                        </div>
+                    </div>
+                </div >
+
             </QuoteCardStyle >
         );
     }

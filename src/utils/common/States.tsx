@@ -44,9 +44,23 @@ export const MostRecentQuotes = atom<Quote[]>({
     default: [],
 });
 
-export const RandomQuote = atom<Quote[]>({
+export const RandomQuote = atom<Quote>({
     key: 'RandomQuote',
-    default: [],
+    default: {
+        quoteId: 0,
+        content: '',
+        votes: 0,
+        created: '',
+        userTk: {
+            userId: 0,
+            email: '',
+            firstName: '',
+            lastName: '',
+            password: '',
+            upvotes: [],
+            Downvotes: [],
+        },
+    },
 });
 
 export const Reloaded = atom<boolean>({

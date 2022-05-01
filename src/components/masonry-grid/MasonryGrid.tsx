@@ -10,8 +10,8 @@ import { UserDownvotes, UserState, UserUpvotes } from "../../utils/common/States
 import { getUser } from "../../utils/common/Session";
 import User from "../../utils/models/User";
 
-const MasonryGrid = ({ quotes, loading, upvotesArray, downvotesArray }:
-    { quotes: Quote[], loading: boolean, upvotesArray: number[], downvotesArray: number[] }) => {
+const MasonryGrid = ({ quotes, loading, }:
+    { quotes: Quote[], loading: boolean }) => {
 
     //Herer we save the user if he is logged in
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
@@ -27,14 +27,11 @@ const MasonryGrid = ({ quotes, loading, upvotesArray, downvotesArray }:
 
 
     //Spliting all the quotes depending on what page of the quotes the user is 
-
-
     const currentQuotes: Quote[] = quotes.slice(currentPage * quotesPerPage, currentPage * quotesPerPage + 9);
 
     useEffect(() => {
-        setuserUpvotesArray(upvotesArray);
-        setUserDownvotesArray(downvotesArray);
         setLoggedUser(getUser());
+
     }, [])
 
     //Change page function sets the page number so we can process the correct page
@@ -59,68 +56,41 @@ const MasonryGrid = ({ quotes, loading, upvotesArray, downvotesArray }:
                     <div className="quote-masonry-greid">
                         <Masonry breakpointCols={3} className="masonry" columnClassName="masonry-column">
                             <QuoteCard
-                                quotes={currentQuotes.slice(0, 1)}
+                                quote={currentQuotes[0]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(1, 2)}
+                                quote={currentQuotes[1]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(2, 3)}
+                                quote={currentQuotes[2]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(3, 4)}
+                                quote={currentQuotes[3]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(4, 5)}
+                                quote={currentQuotes[4]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(5, 6)}
+                                quote={currentQuotes[5]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(6, 7)}
+                                quote={currentQuotes[6]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(7, 8)}
+                                quote={currentQuotes[7]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                             <QuoteCard
-                                quotes={currentQuotes.slice(8, 9)}
+                                quote={currentQuotes[8]}
                                 loading={loading}
-                                upvotesArray={userUpvotesArray}
-                                downvotesArray={userDownvotesArray}
                             />
-
                         </Masonry>
 
                     </div>

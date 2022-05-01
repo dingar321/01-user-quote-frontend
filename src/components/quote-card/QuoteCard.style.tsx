@@ -53,12 +53,14 @@ export const QuoteCardStyle = styled.div`
     }
 
     .downvote {
-        border: 1px solid blue;
+        border: 1px solid #003f9a;
+        background-color: #5099f4;
 
     }
 
     .upvote {
-        border: 1px solid #e59967;
+        border: 1px solid #ff6700 ;
+        background-color: #ff9248;
     }
 }
 
@@ -97,8 +99,10 @@ export const QuoteCardStyle = styled.div`
     }
 }
 
-
-
+.logged-users-quote {
+    color:#e59967;
+    font-weight: bold;
+}
 
 
 
