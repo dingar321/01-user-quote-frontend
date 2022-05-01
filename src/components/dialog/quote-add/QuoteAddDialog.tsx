@@ -6,12 +6,10 @@ import axios from 'axios';
 import { getToken } from '../../../utils/common/Session';
 import { useRecoilState } from 'recoil';
 import Quote from '../../../utils/models/Quote';
-import { MostRecentQuotes, MostUpvotedQuotes } from '../../../utils/common/States';
+import { MostRecentQuotes, MostUpvotedQuotes, UserQuotes } from '../../../utils/common/States';
+import { PopupProps } from '../../../utils/interfaces/PopupProps';
 
-interface PopupProps {
-    openPopup: boolean;
-    setOpenPopup: (open: boolean) => void;
-}
+
 
 function QuoteAddDialog({ openPopup, setOpenPopup }: PopupProps) {
 
@@ -22,6 +20,7 @@ function QuoteAddDialog({ openPopup, setOpenPopup }: PopupProps) {
     //The array's that contains all of the quotes (must be updated)
     const [mostRecentQuotes, setMostRecentQuotes] = useRecoilState<Quote[]>(MostRecentQuotes);
     const [mostUpvotedQuotes, setMostUpvotedQuotes] = useRecoilState<Quote[]>(MostUpvotedQuotes);
+    const [userQuotes, setUserQuotes] = useRecoilState<Quote[]>(UserQuotes);
 
     //Values that the user must provide
     const [content, setContent] = useState('');
@@ -72,10 +71,24 @@ function QuoteAddDialog({ openPopup, setOpenPopup }: PopupProps) {
             }
             fetchMostUpvotedQuotes();
 
+            const fetchUserQuotes = async () => {
+                await axios.get('http://localhost:3333/user-quotes ',
+                    {
+                        headers: { Authorization: `Bearer ${getToken()}` },
+                        withCredentials: true,
+                    }
+                ).then(response => {
+
+                    setUserQuotes(response.data);
+
+                })
+            }
+            fetchUserQuotes();
 
             //Clear all fields:
             setContent('');
             setOpenPopup(false);
+
 
         }).catch(error => {
             if (error.response?.status === 400) {
@@ -96,10 +109,7 @@ function QuoteAddDialog({ openPopup, setOpenPopup }: PopupProps) {
             errorRef.current?.focus();
         });
 
-
-
     }
-
     return (
         <QuoteAddDialogStyle>
             <div className='background'>

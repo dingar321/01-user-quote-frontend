@@ -14,7 +14,6 @@ import QuotasticLogo from '../../assets/images/navbar/navbar-logo.svg';
 const Navbar = () => {
 
     //Dialog toggling
-    const [openSettingsDialog, setOpenSettingsDialog] = useState<boolean>(false);
     const [openQuoteAddDialog, setOpenQuoteAddDialog] = useState<boolean>(false);
 
     //Getting and saving the user to a global state
@@ -81,7 +80,6 @@ const Navbar = () => {
 
                                 {((loggedUser?.userId != 0)) && <>
                                     <button className="btn-log" onClick={navigateDashbaord}>Home</button>
-                                    <button className="btn-log" >Setting</button>
                                     <button className="btn-log" onClick={navigateProfile}>Profile</button>
                                     <button className="btn-log" onClick={handleLogout}>Logout</button>
                                     <button className="btn-add" onClick={() => setOpenQuoteAddDialog(true)}>+</button>
@@ -101,8 +99,6 @@ const Navbar = () => {
                         </nav>
                     </div>
                 </div>
-
-
 
                 {(openQuoteAddDialog) &&
                     <>

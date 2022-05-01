@@ -63,7 +63,15 @@ export const RandomQuote = atom<Quote>({
     },
 });
 
-export const Reloaded = atom<boolean>({
-    key: 'Reloaded',
-    default: false,
+
+export const UserQuotes = atom<Quote[]>({
+    key: 'UsersQuotes',
+    default: [],
 });
+
+
+export const UserUpvotedQuotes = atom<Quote[]>({
+    key: 'UsersLikedQuotes',
+    default: [],
+});
+

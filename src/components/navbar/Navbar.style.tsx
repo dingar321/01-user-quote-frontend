@@ -16,12 +16,7 @@ export const NavbarStyle = styled.div`
     button {
         margin-right: 20px;
     }
-
-    ul {
-
-    }
 }
-
 
 .navbar-container {
     max-width: 1750px;
@@ -73,14 +68,19 @@ export const NavbarStyle = styled.div`
     font-weight: 400;
     font-size: 20px;
     line-height: 19px;
-    color: black;
-
+    color: #e59967;
     background: none;
 	border: 0;
-
 	cursor: pointer;
 	outline: inherit;
+
+    /* border-bottom: 1px solid black; */
+    :hover {
+        border-bottom: 2px solid #e59967; 
+    }
 }
+
+
 
 /* Dialog background activates when the
 dialog is oppened is pressed*/

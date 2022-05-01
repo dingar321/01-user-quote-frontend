@@ -10,10 +10,12 @@ import Navbar from './components/navbar/Navbar';
 import LandingPage from './components/landing-page/LandingPage';
 import Login from './components/login/Login';
 import Signup from './components/signup/Signup';
+import Profile from './components/profile/Profile';
 
 /* Importing libraries */
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+
 
 
 function App() {
@@ -31,6 +33,12 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
 
+                {/* Private routes */}
+                <Route path="/profile" element={<Profile />} />
+
+
+                {/* Catch all */}
+                {/*TODO:*/}
               </Routes>
             </div>
           </div>

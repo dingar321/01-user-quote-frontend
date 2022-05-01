@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { MostRecentQuotes, MostUpvotedQuotes, RandomQuote, Reloaded, UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
-
+import {
+    MostRecentQuotes, MostUpvotedQuotes, RandomQuote,
+    UserDownvotes, UserState, UserUpvotes
+} from '../../utils/common/States';
 
 import { useParams } from 'react-router-dom';
 //Import stlye
@@ -83,7 +85,7 @@ const LandingPage = () => {
         navigate("/signup");
     }
 
-    if (!loggedUser) {
+    if (loggedUser.userId === 0) {
         {/* If the user is NOT logged in we display this */ }
         return (
             <LandingPageStyle>

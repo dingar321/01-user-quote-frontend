@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { MostRecentQuotes, MostUpvotedQuotes, RandomQuote, UserDownvotes, UserState, UserUpvotes } from '../../utils/common/States';
+import { MostRecentQuotes, MostUpvotedQuotes, RandomQuote, UserDownvotes, UserState, UserUpvotedQuotes, UserUpvotes } from '../../utils/common/States';
 
 //Import style
 import { QuoteCardStyle } from './QuoteCard.style'
@@ -26,6 +26,8 @@ function QuoteCard({ quote, loading }: { quote: Quote, loading: boolean }) {
     //here we save the users upvotes and downvotes if he is logged in 
     const [userUpvotesArray, setuserUpvotesArray] = useRecoilState<number[]>(UserUpvotes);
     const [userDownvotesArray, setUserDownvotesArray] = useRecoilState<number[]>(UserDownvotes);
+
+    const [userUpvotedQuotes, setUserUpvotedQuotes] = useRecoilState<Quote[]>(UserUpvotedQuotes);
 
     const [recievedQuote, setRecievedQuote] = useState<Quote>();
 
@@ -81,6 +83,18 @@ function QuoteCard({ quote, loading }: { quote: Quote, loading: boolean }) {
                             setMostUpvotedQuotes(response.data);
                         }
                         fetchMostUpvotedQuotes();
+
+                        const fetchUserUpvotedQutoes = async () => {
+                            await axios.get('http://localhost:3333/user-upvoted-quotes ',
+                                {
+                                    headers: { Authorization: `Bearer ${getToken()}` },
+                                    withCredentials: true,
+                                }
+                            ).then(response => {
+                                setUserUpvotedQuotes(response.data);
+                            })
+                        }
+                        fetchUserUpvotedQutoes();
                     })
                 }
                 updateVotesSelectedQuote();
@@ -131,6 +145,18 @@ function QuoteCard({ quote, loading }: { quote: Quote, loading: boolean }) {
                             setMostUpvotedQuotes(response.data);
                         }
                         fetchMostUpvotedQuotes();
+
+                        const fetchUserUpvotedQutoes = async () => {
+                            await axios.get('http://localhost:3333/user-upvoted-quotes ',
+                                {
+                                    headers: { Authorization: `Bearer ${getToken()}` },
+                                    withCredentials: true,
+                                }
+                            ).then(response => {
+                                setUserUpvotedQuotes(response.data);
+                            })
+                        }
+                        fetchUserUpvotedQutoes();
                     })
                 }
                 updateVotesSelectedQuote();
@@ -222,6 +248,10 @@ function QuoteCard({ quote, loading }: { quote: Quote, loading: boolean }) {
 
             </QuoteCardStyle >
         );
+    }
+    else if (!recievedQuote) {
+        {/* If no quotes exist */ }
+        return <div className="no-quotes"></div>
     }
     else {
         {/* If no quotes exist */ }
