@@ -90,4 +90,14 @@ export const ProfileStyle = styled.div`
         }
     }
 }
+
+/* Dialog background activates when the
+dialog is oppened is pressed*/
+.dialog-background {
+    //Size of the background
+    width: 100vw;
+    height: 1080px;
+    backdrop-filter: blur(3px);
+    position: fixed;
+}
 `

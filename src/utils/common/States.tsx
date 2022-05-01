@@ -75,3 +75,21 @@ export const UserUpvotedQuotes = atom<Quote[]>({
     default: [],
 });
 
+
+
+
+/* Dialogs: */
+export const QuoteDialogState = atom<boolean>({
+    key: 'QuoteDialogState',
+    default: false,
+});
+
+export const NameChangeDialogState = atom<boolean>({
+    key: 'NameChangeDialogState',
+    default: false,
+});
+
+export const PasswordChangeDialogState = atom<boolean>({
+    key: 'PasswordChangeDialogState',
+    default: false,
+});

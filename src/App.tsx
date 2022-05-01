@@ -15,10 +15,14 @@ import Profile from './components/profile/Profile';
 /* Importing libraries */
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { useState } from 'react';
 
 
 
 function App() {
+
+  const [loggedUser, setLoggedUser] = useState();
+
   return (
     <RecoilRoot>
       <Router>

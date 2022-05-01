@@ -8,18 +8,21 @@ import Masonry from "react-masonry-css";
 import ProfileBackground from '../../assets/images/profile/dashboard-bckgrd-curve-rectangle.png';
 import { useRecoilState } from "recoil";
 import User from "../../utils/models/User";
-import { UserDownvotes, UserQuotes, UserState, UserUpvotedQuotes, UserUpvotes } from "../../utils/common/States";
+import { NameChangeDialogState, PasswordChangeDialogState, QuoteDialogState, UserDownvotes, UserQuotes, UserState, UserUpvotedQuotes, UserUpvotes } from "../../utils/common/States";
 import Quote from "../../utils/models/Quote";
 import MasonryGrid from "../masonry-grid/MasonryGrid";
+import ProfileNameChangeDialog from "../dialog/profile-name-change/ProfileNameChangeDialog";
 
 const Profile = () => {
 
     //Dialog toggling
-    const [openNameChangeDialog, setOpenNameChangeDialog] = useState<boolean>(false);
-    const [openPasswordChangeDialog, setOpenPasswordChangeDialog] = useState<boolean>(false);
+    const [openQuoteAddDialog, setOpenQuoteAddDialog] = useRecoilState<boolean>(QuoteDialogState);
+    const [openNameChangeDialog, setOpenNameChangeDialog] = useRecoilState<boolean>(NameChangeDialogState);
+    const [openPasswordChangeDialog, setOpenPasswordChangeDialog] = useRecoilState<boolean>(PasswordChangeDialogState);
 
     //Herer we save the user
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
+
     //saving the users karma
     const [userKarma, setUserKarma] = useState<number>();
 
@@ -119,6 +122,13 @@ const Profile = () => {
     return (
         <ProfileStyle>
             <div className="container">
+
+                {(openNameChangeDialog) &&
+                    <>
+                        < ProfileNameChangeDialog openPopup={openNameChangeDialog} setOpenPopup={setOpenNameChangeDialog} />
+                    </>
+                }
+
                 <div className="profile">
 
                     <div className="user-information">
@@ -136,9 +146,9 @@ const Profile = () => {
                             </div>
                         </div>
                         <p className="profile-settings">
-                            <button onClick={() => setOpenPasswordChangeDialog(true)} >Change full name</button>
+                            <button onClick={() => setOpenNameChangeDialog(true)} >Change full name</button>
                             <br />
-                            <button onClick={() => setOpenNameChangeDialog(true)} >Change password</button>
+                            <button onClick={() => setOpenPasswordChangeDialog(true)} >Change password</button>
                         </p>
                     </div>
 

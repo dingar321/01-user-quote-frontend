@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { NavbarStyle } from './Navbar.style'
 import User from '../../utils/models/User';
 import { getUser, removeTokenAndUser } from '../../utils/common/Session';
-import { UserState } from '../../utils/common/States';
+import { NameChangeDialogState, PasswordChangeDialogState, QuoteDialogState, UserState } from '../../utils/common/States';
 import QuoteAddDialog from '../dialog/quote-add/QuoteAddDialog';
 import { useRecoilState } from 'recoil';
 
@@ -14,7 +14,9 @@ import QuotasticLogo from '../../assets/images/navbar/navbar-logo.svg';
 const Navbar = () => {
 
     //Dialog toggling
-    const [openQuoteAddDialog, setOpenQuoteAddDialog] = useState<boolean>(false);
+    const [openQuoteAddDialog, setOpenQuoteAddDialog] = useRecoilState<boolean>(QuoteDialogState);
+    const [openNameChangeDialog, setOpenNameChangeDialog] = useRecoilState<boolean>(NameChangeDialogState);
+    const [openPasswordChangeDialog, setOpenPasswordChangeDialog] = useRecoilState<boolean>(PasswordChangeDialogState);
 
     //Getting and saving the user to a global state
     const [loggedUser, setLoggedUser] = useRecoilState<User>(UserState);
@@ -55,7 +57,7 @@ const Navbar = () => {
         <NavbarStyle>
             <nav>
 
-                {(openQuoteAddDialog) &&
+                {(openQuoteAddDialog || openNameChangeDialog || openPasswordChangeDialog) &&
                     /* Just a background for when the dialog opens */
                     <img className="dialog-background"></img>
                 }
