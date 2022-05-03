@@ -6,13 +6,14 @@ import axios from 'axios';
 import { getToken } from '../../../utils/common/Session';
 import { useRecoilState } from 'recoil';
 import Quote from '../../../utils/models/Quote';
-import { MostRecentQuotes, MostUpvotedQuotes, UserQuotes } from '../../../utils/common/States';
+import { MostRecentQuotes, MostUpvotedQuotes, QuoteDialogState, UserQuotes } from '../../../utils/common/States';
 import { PopupProps } from '../../../utils/interfaces/PopupProps';
 
 
 
 function QuoteAddDialog({ openPopup, setOpenPopup }: PopupProps) {
 
+    const [openQuoteAddDialog, setOpenQuoteAddDialog] = useRecoilState<boolean>(QuoteDialogState);
     //Effects handling
     //const contentRef = React.useRef<LegacyRef<HTMLTextAreaElement> | null>(null)
     const errorRef = React.useRef<HTMLInputElement | null>(null)
@@ -133,7 +134,7 @@ function QuoteAddDialog({ openPopup, setOpenPopup }: PopupProps) {
                             </div>
                             <div className='footer'>
                                 <button className='btn small bckgrd-orange bord-none text-white' >Submit</button>
-                                <button className='btn small bckgrd-white bord-orange text-orange' onClick={() => setOpenPopup(false)}>Cancel</button>
+                                <button className='btn small bckgrd-white bord-orange text-orange' onClick={() => setOpenQuoteAddDialog(false)}>Cancel</button>
                             </div>
                         </form>
                     </div>

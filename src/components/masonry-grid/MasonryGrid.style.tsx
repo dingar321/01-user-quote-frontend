@@ -7,14 +7,13 @@ export const MasonryGridStyle = styled.div`
     margin: 0 auto;
     display: flex;
     width: 70%;
-
     padding-bottom: 2em;
 }
 
 /* pagination style */
 .pagination {
     width: 100%;
-    height: 50px;
+    height: 50%;
     display: flex;
     justify-content: center;
     list-style: none;
@@ -32,13 +31,10 @@ export const MasonryGridStyle = styled.div`
 }
 
 .pagination {
-
 }
 
 .quote-masonry-greid {
     padding-top: 20px;
-    
-
 }
 
 .pagination a {
@@ -58,6 +54,9 @@ export const MasonryGridStyle = styled.div`
     .no-quotes {
         text-align: center;
     }
+
+
+/* Phone part */
 
 
 `;

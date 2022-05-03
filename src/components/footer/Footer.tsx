@@ -10,9 +10,7 @@ const Footer = () => {
     return (
         <FooterStyle>
             <footer className="footer">
-                <h1>
-                    <img src={FooterLogo} />
-                </h1>
+                <h1> <img src={FooterLogo} /> </h1>
                 <div>
                     <p>All Rights Reserved | skillupmentor.com</p>
                 </div>

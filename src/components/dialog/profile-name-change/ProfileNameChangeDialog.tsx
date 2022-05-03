@@ -2,13 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil';
 import { getToken } from '../../../utils/common/Session';
-import { UserState } from '../../../utils/common/States';
+import { NameChangeDialogState, UserState } from '../../../utils/common/States';
 import { PopupProps } from '../../../utils/interfaces/PopupProps';
 import User from '../../../utils/models/User';
 import { ProfileNameChangeDialogStyle } from './ProfileNameChangeDialog.style'
 
 function ProfileNameChangeDialog({ openPopup, setOpenPopup }: PopupProps) {
 
+    const [openNameChangeDialog, setOpenNameChangeDialog] = useRecoilState<boolean>(NameChangeDialogState);
     //Effects handling
     const errorRef = React.useRef<HTMLInputElement | null>(null)
 
@@ -43,7 +44,7 @@ function ProfileNameChangeDialog({ openPopup, setOpenPopup }: PopupProps) {
     const handleSubmitChangeName = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        await axios.post('http://localhost:3333/me/name-change',
+        await axios.patch('http://localhost:3333/me/name-change',
             JSON.stringify({ firstName, lastName }),
             {
                 headers: {
@@ -62,14 +63,14 @@ function ProfileNameChangeDialog({ openPopup, setOpenPopup }: PopupProps) {
             setLastName('');
 
             //Close the dialog on submition
-            setOpenPopup(false);
+            setOpenNameChangeDialog(false);
 
         }).catch(error => {
             if (error.response?.status === 400) {
                 setErrorMessage('Values must be provided in the correct format');
             }
             else if (error.response?.status === 404) {
-                setErrorMessage('User not found!');
+                setErrorMessage('User not found !');
             }
             else if (error.response?.status === 500) {
                 setErrorMessage('Something unexpected went wrong');
@@ -84,40 +85,45 @@ function ProfileNameChangeDialog({ openPopup, setOpenPopup }: PopupProps) {
     return (
         <ProfileNameChangeDialogStyle>
             <div className='background'>
-                <div className='dialog-window'>
 
-                    <div className='title'>
-                        <h1>Change account's <span className='text-orange'>full name!</span></h1>
-                        <p>Change your account's first or last name</p>
-                    </div>
 
-                    <div className='body'>
-                        <form onSubmit={handleSubmitChangeName}>
-                            <div className="signup-form-full-name">
-                                <div>
-                                    <label htmlFor="firstName">First Name</label>
-                                    <input type="text" name="firstName" id="firstName" className="input-short"
-                                        autoComplete="off" required onChange={(e) => setFirstName(e.target.value)} value={firstName} />
-                                </div>
-                                <div>
-                                    <label htmlFor="lastName">Last Name</label>
-                                    <input type="text" name="lastName" id="lastName" className="input-short"
-                                        autoComplete="off" required onChange={(e) => setLastName(e.target.value)} value={lastName} />
-                                </div>
+                <form onSubmit={handleSubmitChangeName}>
+                    <div className='dialog-window'>
+
+
+                        <div className='title'>
+                            <h1>Change account's <span className='text-orange'>full name!</span></h1>
+                            <p>Change your account's first or last name</p>
+                        </div>
+
+
+                        <div className="middle">
+                            <div>
+                                <label htmlFor="firstName">First Name</label>
+                                <input type="text" name="firstName" id="firstName" className="input-short"
+                                    autoComplete="off" required onChange={(e) => setFirstName(e.target.value)} value={firstName} />
                             </div>
-                            <div className='footer'>
-                                <button className='btn small bckgrd-orange bord-none text-white' >Submit</button>
-                                <button className='btn small bckgrd-white bord-orange text-orange' onClick={() => setOpenPopup(false)}>Cancel</button>
+                            <div>
+                                <label htmlFor="lastName">Last Name</label>
+                                <input type="text" name="lastName" id="lastName" className="input-short"
+                                    autoComplete="off" required onChange={(e) => setLastName(e.target.value)} value={lastName} />
                             </div>
-                        </form>
+                        </div>
+
+
+                        <div className='footer'>
+                            <button className='btn small bckgrd-orange bord-none text-white' type="submit">Submit</button>
+                            <button className='btn small bckgrd-white bord-orange text-orange' onClick={() => setOpenNameChangeDialog(false)}>Cancel</button>
+
+                        </div>
+                        <div className="ErrorMessage">
+                            <p ref={errorRef} className={errorMessage ? "errorMessage" : "offscreen"} aria-live="assertive" >{errorMessage}</p>
+                        </div>
+
                     </div>
-
-                    <div className="ErrorMessage">
-                        <p ref={errorRef} className={errorMessage ? "errorMessage" : "offscreen"} aria-live="assertive" >{errorMessage}</p>
-                    </div>
+                </form>
 
 
-                </div>
             </div>
         </ProfileNameChangeDialogStyle>
     )

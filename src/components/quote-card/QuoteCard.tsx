@@ -220,7 +220,10 @@ function QuoteCard({ quote, loading }: { quote: Quote, loading: boolean }) {
                             {/* Check if the quote belongs to the logged in user */}
                             {(recievedQuote.userTk.email == loggedUser.email) &&
                                 <p className='logged-users-quote'>
-                                    {recievedQuote.userTk.firstName} {recievedQuote.userTk.lastName}
+                                    <p className='quote-user'>{recievedQuote.userTk.firstName} {recievedQuote.userTk.lastName}</p>
+                                    {/*
+                                    <button className='delete-button'>X</button>
+                                     */}
                                 </p>
                             }
 

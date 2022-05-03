@@ -3,8 +3,13 @@ import styled from 'styled-components/macro';
 export const NavbarStyle = styled.div`
 
 .navbar {
+    /* Navbar size */
     height: 120px;
-    padding-top: 30px;
+
+    /* Inside margins and padding */
+    padding-top: 10px;
+
+    
     overflow: hidden;
     justify-content: center;
 
@@ -78,8 +83,13 @@ export const NavbarStyle = styled.div`
     :hover {
         border-bottom: 2px solid #e59967; 
     }
-}
 
+    :active {
+        color: #e59967;
+        box-shadow: none;
+    }
+    
+}
 
 
 /* Dialog background activates when the

@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const LoginStyle = styled.div`
 
-/* Main container */
+
 .login-container {
     max-width: 420px;
     margin: 0 auto;
@@ -49,6 +49,10 @@ export const LoginStyle = styled.div`
         line-height: 14px;
     }
 }
+
+
+
+
 .ErrorMessage {
     color: red;
     font-weight: bold;

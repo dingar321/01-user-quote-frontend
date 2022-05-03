@@ -12,6 +12,7 @@ import { NameChangeDialogState, PasswordChangeDialogState, QuoteDialogState, Use
 import Quote from "../../utils/models/Quote";
 import MasonryGrid from "../masonry-grid/MasonryGrid";
 import ProfileNameChangeDialog from "../dialog/profile-name-change/ProfileNameChangeDialog";
+import ProfilePasswordChangeDialog from "../dialog/profile-password-change/ProfilePasswordChangeDialog";
 
 const Profile = () => {
 
@@ -125,7 +126,13 @@ const Profile = () => {
 
                 {(openNameChangeDialog) &&
                     <>
-                        < ProfileNameChangeDialog openPopup={openNameChangeDialog} setOpenPopup={setOpenNameChangeDialog} />
+                        < ProfileNameChangeDialog openPopup={openNameChangeDialog} setOpenPopup={setOpenPasswordChangeDialog} />
+                    </>
+                }
+
+                {(openPasswordChangeDialog) &&
+                    <>
+                        < ProfilePasswordChangeDialog openPopup={openNameChangeDialog} setOpenPopup={setOpenNameChangeDialog} />
                     </>
                 }
 

@@ -104,6 +104,28 @@ export const QuoteCardStyle = styled.div`
     font-weight: bold;
 }
 
+.quote-user {
+    display: inline;
+    padding-right: 220px;
+}
+
+
+.delete-button {
+
+	color: #e59967;
+        background-color: white;
+
+
+width: 20px;
+height: 20px;
+    border-radius: 100px;
+    border: 0px solid #e59967;
+    font-size: 15px;
+
+    :active {
+
+    }
+}
 
 
 `;
