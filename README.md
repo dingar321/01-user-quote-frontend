@@ -1,46 +1,42 @@
-# Getting Started with Create React App
+# 01-user-quote-frontend
+This is the first project in the "SkillUp Mentor" program. The main purpose of this project is to learn full-stack development and new technologies such as Typescript The assignment is a full-stack application that allows users to register and login, write one paragraph of a motivational quote, view other users quotes and vote on them eq. upvote and  downvote. Technologies that i will be using in this project are as follows: Typescript, JavaScript ReactJs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository is the front-end part of the project:<br>
+The back-end part of this project: [01-user-quote-backend](https://github.com/dingar321/01-user-quote-backend) 
 
-## Available Scripts
+## Setup
 
-In the project directory, you can run:
 
-### `npm start`
+## Appendix
+#### ReactJs libraries & useful links
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- <b>Axios:</b> a promise based HTTP client for the browser and Node. js. Axios makes it easy to send asynchronous HTTP requests to REST endpoints and perform CRUD operations.
+[Youtube tutorial playlist ](https://www.youtube.com/playlist?list=PL0Zuz27SZ-6PRCpm9clX0WiBEMB70FWwd) </br>
+Library installation command: </br> 
+`npm i cors`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- <b>Style components:</b> a library for React that allows you to use component-level styles in your application that are written with a mixture of JavaScript and CSS using a technique called CSS-in-JS.  </br>
+[Great Youtube Video](https://www.youtube.com/watch?v=02zO0hZmwnw) </br>
+Library installation command: </br> 
+`npm i styled-components`
 
-### `npm test`
+- <b>Font Awesome:</b> the internet's icon library and toolkit used by millions of designers, developers, and content creators.  </br>
+[Website](https://fontawesome.com/v5/docs/web/use-with/react) </br>
+Library installation command's: </br> 
+`npm i @fortawesome/react-fontawesome` </br> 
+`npm i @fortawesome/free-solid-svg-icons` </br> 
+`npm i @fortawesome/fontawesome-svg-core` </br> 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- <b>React router:</b> a standard library for routing in React.  </br>
+[Website](https://www.youtube.com/watch?v=oUZjO00NkhY& list=PL0Zuz27SZ-6PRCpm9clX0WiBEMB70FWwd&index=3) </br>
+Library installation command's: </br> 
+`npm i react-router-dom@6` </br> 
 
-### `npm run build`
+- <b>React masonry:</b> Is a React Component with a simple interface to order items into the desired columns at specified breakpoints.  </br>
+[Short tutorial](https://www.youtube.com/watch?v=PLzx2thLQaU)
+Library installation command's: </br> 
+`npm i react-masonry-css` </br> 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- npm add react-paginate
+## License
+This assignment is protected with SkillUp Mentor copyright. The Candidate may upload the assignment on his closed profile on GitHub (or other platform), but any other reproduction and distribution of the assignment itself or the assignment’s solutions without written permission of SkillUp Mentor is prohibited.
