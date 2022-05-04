@@ -4,8 +4,12 @@ export const TitleStyle = styled.div`
 
 .title {
     text-align: center;
-    background-color: green;
     h1 {
+        @media (max-width: 500px) {
+            padding-left: 10%;
+
+            margin: 0;
+        }
         font-weight: 400;
         font-size: 35px;
         line-height: 41px;
@@ -20,15 +24,14 @@ export const TitleStyle = styled.div`
         width: 600px;
 
         @media (max-width: 500px) {
-            width: 300px;
+            padding-left: 10%;
+            width: 500px;
             margin: 0;
-            background-color: aquamarine;
         }
 
     }
 
     .title-description {
-        background-color: red;
 
         display: flex;
         justify-content: space-around;

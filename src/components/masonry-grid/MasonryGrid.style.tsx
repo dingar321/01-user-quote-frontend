@@ -2,12 +2,43 @@ import styled from 'styled-components/macro';
 
 export const MasonryGridStyle = styled.div`
 
+/*
 .masonry {
-    max-width: 1500px;
+    max-width: 1000px;
+    min-width: 600px;
+
     margin: 0 auto;
     display: flex;
-    width: 70%;
+
+    background-color: red;
+
+}
+*/
+
+.quote-masonry-grid {
+    max-width: 1500px;
+    margin: 0 200px;
+    padding-top: 30px;
+
+
+
+}
+
+.masonry {
+    display: flex;
     padding-bottom: 2em;
+
+
+    .masonry-card{
+        width: 420px;
+    }
+    
+}
+
+
+.masonry-column {
+    justify-content: center;
+
 }
 
 /* pagination style */
@@ -18,6 +49,9 @@ export const MasonryGridStyle = styled.div`
     justify-content: center;
     list-style: none;
     margin-top: 20px;
+
+
+
 
     /* Removal of the:
     To disable the text selection when the user double clicks on the HTML element,
@@ -33,9 +67,6 @@ export const MasonryGridStyle = styled.div`
 .pagination {
 }
 
-.quote-masonry-greid {
-    padding-top: 20px;
-}
 
 .pagination a {
         padding: 10px;

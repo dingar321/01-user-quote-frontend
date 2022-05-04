@@ -26,7 +26,7 @@ export const QuoteCardStyle = styled.div`
     /* Setting the size of the cards */
     max-width: 420px;
     min-height: 130px;
-
+    resize: none;
 }
 
 
