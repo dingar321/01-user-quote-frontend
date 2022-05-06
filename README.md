@@ -1,5 +1,5 @@
 # 01-user-quote-frontend
-This is the first project in the "SkillUp Mentor" program. The main purpose of this project is to learn full-stack development and new technologies such as Typescript The assignment is a full-stack application that allows users to register and login, write one paragraph of a motivational quote, view other users quotes and vote on them eq. upvote and  downvote. Technologies that i will be using in this project are as follows: Typescript, JavaScript ReactJs
+This is the first project in the "SkillUp Mentor" program. The main purpose of this project is to learn full-stack development and new technologies such as Typescript The assignment is a full-stack application that allows users to register and login, write one paragraph of a motivational quote, view other users quotes and vote on them eq. upvote and  downvote.
 
 This repository is the front-end part of the project:<br>
 The back-end part of this project: [01-user-quote-backend](https://github.com/dingar321/01-user-quote-backend) 
